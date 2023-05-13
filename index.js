@@ -5,10 +5,15 @@ const app = express()
 const port = process.env.PORT || 3000
 const tz = process.env.TZ || 'UTC'
 
+const parseToNumber = (value) => {
+    const parsedValue = parseInt(value)
+    return isNaN(parsedValue) ? null : parsedValue
+}
+
 const timeZone = (req, res) => {
     try {
         const timeZone = req.headers['x-time-zone'] || req.query?.tz || tz
-        const customTime = req.headers['x-custom-time'] || req.query?.time || req.body?.time || null
+        const customTime = parseToNumber(req.headers['x-custom-time'] || req.query?.time || req.body?.time)
         const customLocale = req.headers['x-custom-locale'] || req.query?.locale || req.body?.locale || 'en-US'
         const date = customTime ? new Date(customTime) : new Date()
         const currentDate = date.toLocaleString(customLocale, { timeZone: timeZone })
