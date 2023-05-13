@@ -14,6 +14,7 @@ const timeZone = (req, res) => {
         const currentDate = date.toLocaleString(customLocale, { timeZone: timeZone })
 
         res.json({
+            serverDate: new Date().toLocaleString(customLocale),
             date: currentDate,
             timestamp: date.getTime(),
             timezone: timeZone,
